@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Join Task List{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>Join Task List</h2>
+        <p>Enter the secret key provided by the task list owner to gain access.</p>
+        <form method="POST" action="{{ url_for('share_task_list') }}">
+            <div class="form-group">
+                <label for="secret_key">Secret Key</label>
+                <input type="text" id="secret_key" name="secret_key" required>
+            </div>
+            <button type="submit" class="btn">Join</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

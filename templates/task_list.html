@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task_list.name }}{% endblock %}
+
+{% block content %}
+    <div class="task-list-header">
+        <h2>{{ task_list.name }}</h2>
+        {% if task_list.user_id == current_user.id %}
+            <div class="secret-key">
+                <strong>Secret Key:</strong> {{ task_list.secret_key }}
+                <small>Share this key to grant access</small>
+            </div>
+        {% endif %}
+        <a href="{{ url_for('create_task', task_list_id=task_list.id) }}" class="btn">Add Task</a>
+    </div>
+
+    {% if task_list.description %}
+        <p class="task-list-description">{{ task_list.description }}</p>
+    {% endif %}
+
+    <div class="tasks">
+        {% if tasks %}
+            <ul class="task-items">
+                {% for task in tasks %}
+                    <li class="task-item">
+                        <div class="task-info">
+                            <h3>{{ task.title }}</h3>
+                            <p>{{ task.description }}</p>
+                            <div class="task-meta">
+                                <span class="status {{ task.status }}">{{ task.status|replace('_', ' ')|title }}</span>
+                                {% if task.duration %}
+                                    <span class="duration">{{ task.duration }} min</span>
+                                {% endif %}
+                                <span class="author">by {{ task.user.username }}</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            {% if task.user_id == current_user.id %}
+                                <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-small">Edit</a>
+                                <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}" class="inline-form">
+                                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tasks in this list yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

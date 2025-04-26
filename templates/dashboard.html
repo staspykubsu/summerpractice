@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="dashboard-header">
+        <h2>Welcome, {{ current_user.username }}!</h2>
+        <a href="{{ url_for('create_task_list') }}" class="btn">Create New Task List</a>
+        <a href="{{ url_for('share_task_list') }}" class="btn btn-outline">Join Task List</a>
+    </div>
+
+    <div class="task-lists">
+        <section class="my-lists">
+            <h3>My Task Lists</h3>
+            {% if task_lists %}
+                <ul>
+                    {% for task_list in task_lists %}
+                        <li>
+                            <a href="{{ url_for('view_task_list', task_list_id=task_list.id) }}">
+                                {{ task_list.name }}
+                            </a>
+                            <span class="badge">{{ task_list.tasks|length }} tasks</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You don't have any task lists yet.</p>
+            {% endif %}
+        </section>
+
+        <section class="shared-lists">
+            <h3>Shared With Me</h3>
+            {% if shared_lists %}
+                <ul>
+                    {% for shared in shared_lists %}
+                        <li>
+                            <a href="{{ url_for('view_task_list', task_list_id=shared.task_list.id) }}">
+                                {{ shared.task_list.name }} (shared by {{ shared.task_list.owner.username }})
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No task lists shared with you yet.</p>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

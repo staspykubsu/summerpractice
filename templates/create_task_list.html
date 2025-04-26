@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Create Task List{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>Create New Task List</h2>
+        <form method="POST" action="{{ url_for('create_task_list') }}">
+            <div class="form-group">
+                <label for="name">List Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn">Create</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

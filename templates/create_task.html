@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Create Task{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h2>Create New Task in "{{ task_list.name }}"</h2>
+        <form method="POST" action="{{ url_for('create_task', task_list_id=task_list.id) }}">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration (minutes)</label>
+                <input type="number" id="duration" name="duration" min="1">
+            </div>
+            <button type="submit" class="btn">Create Task</button>
+            <a href="{{ url_for('view_task_list', task_list_id=task_list.id) }}" class="btn btn-outline">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
